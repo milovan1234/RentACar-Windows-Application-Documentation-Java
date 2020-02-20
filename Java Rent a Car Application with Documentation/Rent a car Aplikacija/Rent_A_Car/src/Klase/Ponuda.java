@@ -192,58 +192,7 @@ public class Ponuda {
         return oPonude;
     }
 
-    public static void iseciPonude(int idAuta) {
-        ArrayList<Rezervacija> oRez = Rezervacija.rezervacijeZaAuto(idAuta);
-        ArrayList<Ponuda> oPonude = Ponuda.ponudeZaAuto(idAuta);
-        Date ponPoc, ponKraj, rezPoc, rezKraj;
-        iPonude.clear();
-        for (int i = 0; i < oPonude.size(); i++) {
-            boolean provera = true;
-            boolean cela = true;
-            for (int j = 0; j < oRez.size(); j++) {
-                if (oPonude.get(i).idAuta == oRez.get(j).getIdAuta()) {
-                    provera = false;
-                    ponPoc = oPonude.get(i).datumOd;
-                    ponKraj = oPonude.get(i).datumDo;
-                    rezPoc = oRez.get(j).getPocetak();
-                    rezKraj = oRez.get(j).getKraj();
-                    if (!ponPoc.before(rezPoc) && !ponKraj.after(rezKraj)) {
-                        cela = false;
-                        break;
-                    } else if (!ponPoc.before(rezPoc) && !ponPoc.after(rezKraj) && ponKraj.after(rezKraj)) {
-                        cela = false;
-                        oPonude.set(i, new Ponuda(oPonude.get(i).idPonuda, oPonude.get(i).idAuta, dodajDan(rezKraj, 1), ponKraj, oPonude.get(i).cenaDan));
-                        if (j == oRez.size() - 1) {
-                            iPonude.add(oPonude.get(i));
-                            break;
-                        } else if (ponKraj.before(oRez.get(j + 1).getPocetak()) || oRez.get(j + 1).getIdAuta() != oPonude.get(i).idAuta) {
-                            iPonude.add(oPonude.get(i));
-                            break;
-                        }
-                    } else if (!ponPoc.after(rezPoc) && !ponKraj.before(rezKraj)) {
-                        cela = false;
-                        oPonude.set(i, new Ponuda(oPonude.get(i).idPonuda, oPonude.get(i).idAuta, dodajDan(rezKraj, 1), ponKraj, oPonude.get(i).cenaDan));
-                        iPonude.add(new Ponuda(oPonude.get(i).idPonuda, oPonude.get(i).idAuta, ponPoc, dodajDan(rezPoc, -1), oPonude.get(i).cenaDan));
-                        if (j == oRez.size() - 1) {
-                            iPonude.add(oPonude.get(i));
-                            break;
-                        } else if (ponKraj.before(oRez.get(j + 1).getPocetak()) || oRez.get(j + 1).getIdAuta() != oPonude.get(i).idAuta) {
-                            iPonude.add(oPonude.get(i));
-                            break;
-                        }
-                    } else if (!ponPoc.after(rezPoc) && !ponKraj.after(rezKraj) && ponKraj.after(rezPoc)) {
-                        cela = false;
-                        iPonude.add(new Ponuda(oPonude.get(i).idPonuda, oPonude.get(i).idAuta, ponPoc, dodajDan(rezPoc, -1), oPonude.get(i).cenaDan));
-                        break;
-                    }
-                }
-            }
-            if (provera || cela) {
-                iPonude.add(oPonude.get(i));
-            }
-        }
-        System.out.println("Prikaz ponuda za odabrani Automobil");        
-    }
+    
 
     private static Date dodajDan(Date d, int broj) {
         try {

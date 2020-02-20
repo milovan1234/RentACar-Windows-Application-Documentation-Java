@@ -37,7 +37,6 @@ public class AdministratorMeni implements Meni {
                 return false;
             case "3":
                 Administrator.obrisiKorisnika();
-                Meni.nastaviDalje();
                 return false;
             case "4":
                 Automobil.prikaziAutomobile();
@@ -51,6 +50,7 @@ public class AdministratorMeni implements Meni {
                 return false;
             case "7":
                 Ponuda.prikaziPonude();
+                Meni.nastaviDalje();
                 return false;
             case "8":
                 Ponuda.dodajPonudu();
